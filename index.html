@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentinel | Secure Access</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="logo">SENTINEL</div>
+      <h1>Secure Access Portal</h1>
+      <p class="subtitle">Enter your credentials to continue</p>
+
+      <div id="error-message" class="error"></div>
+
+      <form id="login-form">
+        <div class="input-group">
+          <label for="username">Access ID</label>
+          <input type="text" id="username" required placeholder="Enter ID" />
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="Enter Password"
+          />
+          <button type="button" class="password-toggle" id="togglePassword">
+            Show
+          </button>
+        </div>
+        <button type="submit">Authenticate</button>
+      </form>
+
+      <div class="footer">
+        <p>• Restricted access •</p>
+        <p>© Sentinel. All Rights Reserved.</p>
+      </div>
+    </div>
+
+    <script>
+      // Password toggle functionality
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("password");
+
+      togglePassword.addEventListener("click", function () {
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+        this.textContent = type === "password" ? "Show" : "Hide";
+      });
+
+      // Form submission
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const errorElement = document.getElementById("error-message");
+          const submitBtn = document.querySelector('button[type="submit"]');
+
+          errorElement.style.display = "none";
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Authenticating...";
+
+          setTimeout(() => {
+            if (!username || !password) {
+              showError("Both fields are required");
+            } else if (password.length < 6) {
+              showError("Passphrase must be at least 6 characters");
+            } else {
+              alert("Authentication successful\n(Simulated for demo)");
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Authenticate";
+          }, 1000);
+        });
+
+      function showError(message) {
+        const errorElement = document.getElementById("error-message");
+        errorElement.textContent = message;
+        errorElement.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
